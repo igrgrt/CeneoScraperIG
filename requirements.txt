@@ -1,4 +1,5 @@
 asttokens==2.4.1
+beautifulsoup4==4.12.3
 certifi==2024.2.2
 charset-normalizer==3.3.2
 colorama==0.4.6
@@ -26,6 +27,7 @@ pywin32==306
 pyzmq==26.0.2
 requests==2.31.0
 six==1.16.0
+soupsieve==2.5
 stack-data==0.6.3
 tornado==6.4
 traitlets==5.14.3
