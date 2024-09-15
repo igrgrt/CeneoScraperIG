@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Ekstrakcja opinii</h1>
+    <form method="POST" action="/extract">
+        <label for="product_id">ID Produktu:</label>
+        <input type="text" id="product_id" name="product_id" required>
+        <button type="submit">Ekstraktuj</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Lista Produktów</h1>
+    {% if products %}
+    <ul>
+        {% for product in products %}
+            <li>
+                <a href="{{ url_for('product', product_id=product['product_id']) }}">{{ product['product_name'] }}</a><br>
+                Średnia liczba recenzji: {{ product['mean_reviews'] }}<br>
+                Liczba zalet: {{ product['num_advantages'] }}<br>
+                Liczba wad: {{ product['num_disadvantages'] }}<br>
+                Średnia ocena: {{ product['mean_stars']|round(2) }}<br>
+                <a href="{{ product['csv_link'] }}">Pobierz CSV</a>
+            </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Brak dostępnych produktów.</p>
+    {% endif %}
+    {% endblock %}

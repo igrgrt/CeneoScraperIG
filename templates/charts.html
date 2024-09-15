@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Wykresy dla produktu {{ product_id }}</h1>
+    
+    <!-- Pie Chart Container -->
+    <div>
+        <h2>Udział rekomendacji</h2>
+        <canvas id="piechart"></canvas>
+    </div>
+    
+    <!-- Bar Chart Container -->
+    <div>
+        <h2>Oceny gwiazdkowe</h2>
+        <canvas id="barchart"></canvas>
+    </div>
+    
+    <a href="{{ url_for('product', product_id=product_id) }}">Powrót do produktu</a>
+    
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Data for the charts
+        const recommendations = {{ recommendations | tojson }};
+        const starRatings = {{ star_ratings | tojson }};
+        
+        // Pie Chart
+        const pieCtx = document.getElementById('piechart').getContext('2d');
+        const pieChart = new Chart(pieCtx, {
+            type: 'pie',
+            data: {
+                labels: recommendations.map(rec => rec.label),
+                datasets: [{
+                    label: 'Udział rekomendacji',
+                    data: recommendations.map(rec => rec.value),
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#E8C3B9']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Bar Chart
+        const barCtx = document.getElementById('barchart').getContext('2d');
+        const barChart = new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: starRatings.map(rating => rating.label),
+                datasets: [{
+                    label: 'Liczba recenzji',
+                    data: starRatings.map(rating => rating.value),
+                    backgroundColor: '#36A2EB',
+                    borderColor: '#2F4F4F',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+    </script>
+{% endblock %}

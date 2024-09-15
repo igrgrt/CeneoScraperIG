@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Opinie o produkcie {{ product_id }}</h1>
+    
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    
+    <!-- jQuery (necessary for DataTables) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- DataTables JavaScript -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    
+    <table id="reviewsTable">
+        <thead>
+            <tr>
+                <th>ID Opinii</th>
+                <th>Autor</th>
+                <th>Rekomendacja</th>
+                <th>Gwiazdki</th>
+                <th>Potwierdzona</th>
+                <th>Data</th>
+                <th>Treść</th>
+                <th>Zalety</th>
+                <th>Wady</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for review in reviews %}
+            <tr>
+                <td>{{ review.review_id }}</td>
+                <td>{{ review.author }}</td>
+                <td>{{ review.recommendation }}</td>
+                <td>{{ review.stars }}</td>
+                <td>{{ review.confirmed }}</td>
+                <td>{{ review.date }}</td>
+                <td>{{ review.content }}</td>
+                <td>{{ review.advantages }}</td>
+                <td>{{ review.disadvantages }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <script>
+    $(document).ready(function() {
+        $('#reviewsTable').DataTable();
+    });
+    </script>
+    
+    <a href="{{ url_for('charts', product_id=product_id) }}">Zobacz wykresy</a>
+{% endblock %}
